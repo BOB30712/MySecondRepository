@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<title>請假審核</title>
+<style type="text/css">
+	.fieldError{color: red;}
+</style>
+
+</head>
+<body>
+	<div class="container my-2">
+		<h1>請假列表</h1>
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>序號</th><th>開始日期</th><th>結束日期</th><th>時數(Hour)</th><th>申請人</th>
+					<th>同意</th><th>不同意</th>
+				</tr>
+			</thead>
+			<tbody>
+				  
+			
+				<tr th:each="h:${holidays}">
+					<td th:text="${h.id}"></td>
+					<td th:text="${h.starttime}"></td>
+					<td th:text="${h.endtime}"></td>
+					<td th:text="${h.hour}"></td>
+					<td th:text="${h.employee.username}"></td>
+					<td>
+					<a th:href="@{/holiday/paidleave/yes/{id}(id=${h.id})}">同意</a>
+					</td>
+					<td>
+						<a th:href="@{/paidleave/no/{id}(id=${h.id})}">不同意</a>
+					</td>
+				</tr>
+
+			</tbody>
+		
+		</table>
+	
+	</div>
+</body>
+</html>
