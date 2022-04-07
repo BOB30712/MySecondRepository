@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <title>主管頁面</title>
 <style type="text/css">
 	.fieldError{color: red;}
 </style>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 </head>>
 <body>
 
@@ -50,7 +50,7 @@
 					
 					<td>
 						<span th:each="emp:${b.employees}">
-							<a th:href="@{/employee/{id}(id=${emp.id})}"  th:text="${emp.username}"/>
+							<a th:href="@{/boss/FullCalender/test/{id}(id=${emp.id})}"  th:text="${emp.username}"/>
 							&nbsp;
 						</span>
 					</td>

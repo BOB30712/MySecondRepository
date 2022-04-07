@@ -3,6 +3,7 @@ package com.example.Controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -98,8 +99,18 @@ public class HolidayController {
 	 */
 	@RequestMapping("/paidleave")
 	public String processindex(Model model,@ModelAttribute Holiday holiday) {
+		
+		//取得登入者名稱
+		String username=SecurityContextHolder.getContext().getAuthentication().getName();
+		Long bid=null;
+		for(Boss b:bossrepo.findAll()) {
+			if(b.getUsername().equals(username)) {
+				bid=b.getId();
+			}
+		}
+		model.addAttribute("name","hello "+username+" "+"wellcome!!");
 		model.addAttribute("_method","POST");
-		model.addAttribute("holidays",holidayrepo.findAll());
+		model.addAttribute("holidays",holidayrepo.findByBossname(bid));
 		model.addAttribute("employees",employeerepo.findAll());
 		model.addAttribute("bosses",bossrepo.findAll());
 		
@@ -107,10 +118,20 @@ public class HolidayController {
 	}
 	
 	@GetMapping("/paidleave/yes/{id}")
-	@ResponseBody
-	public String processadd(@PathVariable("id") Long id) {
+	public String processaddyes(@PathVariable("id") Long id) {
 		String s="同意";
+		Holiday holiday=holidayrepo.getById(id);
+		Employee employee=employeerepo.getById(holiday.getEmployee().getId());
+		Integer time=employee.getPaidleave()-holiday.getHour();
 		holidayrepo.updateresult(s, id);
-		return "修改成功";
+		employeerepo.updatepaidleave(time, employee.getId());
+		return "redirect:../";
+	}
+	
+	@GetMapping("/paidleave/no/{id}")
+	public String processaddno(@PathVariable("id") Long id) {
+		String s="不同意";
+		holidayrepo.updateresult(s, id);
+		return "redirect:../";
 	}
 }

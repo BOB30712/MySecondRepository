@@ -24,7 +24,7 @@ public class Boss {
 	private String username;
 	
 	@Column
-	private Integer userpassword;
+	private String userpassword;
 	
 	@Column
 	private String Department;
@@ -65,11 +65,11 @@ public class Boss {
 		this.username = username;
 	}
 
-	public Integer getUserpassword() {
+	public String getUserpassword() {
 		return userpassword;
 	}
 
-	public void setUserpassword(Integer userpassword) {
+	public void setUserpassword(String userpassword) {
 		this.userpassword = userpassword;
 	}
 	

@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -15,10 +16,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.example.myinterface.NameCheck;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -64,11 +65,30 @@ public class Holiday {
 	@Column
 	private String reason;
 
-	public Long getHour() {
-		Long time=endtime.getTime()-starttime.getTime();
-		TimeUnit tt=TimeUnit.HOURS;
-		Long ans=tt.convert(time,TimeUnit.MILLISECONDS);
-		return ans;
+	public Integer getHour() {
+		/*
+		 	Long time=endtime.getTime()-starttime.getTime();
+			TimeUnit tt=TimeUnit.HOURS;
+			Long ans=tt.convert(time,TimeUnit.MILLISECONDS);
+		
+			return ans;
+		
+		 */
+		Integer ans=0;
+		Date starttime2=starttime;
+		Calendar calendar=Calendar.getInstance();
+		
+		calendar.setTime(starttime2);
+		while(starttime2.getTime()<=endtime.getTime()) {
+			calendar.add(Calendar.DAY_OF_YEAR, 1);
+			starttime2=calendar.getTime();
+			 if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && 
+					 calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+				 ans++;
+			 }
+		}
+		
+		return ans*24;
 	}
 	
 	

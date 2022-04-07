@@ -3,6 +3,7 @@ package com.example.Controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,9 @@ public class BossController {
 			return "boss";
 		}
 		//將新增表單的內容傳到資料庫儲存
+		BCryptPasswordEncoder encode=new BCryptPasswordEncoder();
+		String newPassword=encode.encode(boss.getUserpassword());
+		boss.setUserpassword(newPassword);
 		bossrepo.save(boss);
 		return "redirect:./";
 	}
@@ -67,5 +71,10 @@ public class BossController {
 		}
 		bossrepo.save(boss);
 		return "redirect:./";
+	}
+	
+	@GetMapping("/FullCalender")
+	public String employeeindex() {
+		return "FullCalender";
 	}
 }
